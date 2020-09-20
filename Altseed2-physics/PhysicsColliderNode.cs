@@ -311,8 +311,7 @@ namespace Altseed2.Physics
         public bool GetIsCollidedWith(PhysicsColliderNode shape)
         {
             if (!IsActive) return false;
-            List<Vector2F> points;
-            return World.GetIsCollided(this, shape, out points);
+            return World.GetIsCollided(this, shape, out _);
         }
 
         /// <summary>

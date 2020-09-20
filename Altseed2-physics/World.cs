@@ -139,10 +139,6 @@ namespace Altseed2.Physics
 
         public void EndContact(Contact contact)
         {
-        }
-
-        public void PreSolve(Contact contact, Manifold oldManifold)
-        {
             CollisionData temp = new CollisionData();
             foreach (var item in collisionShapes)
             {
@@ -153,6 +149,10 @@ namespace Altseed2.Physics
                 }
             }
             collisionShapes.Remove(temp);
+        }
+
+        public void PreSolve(Contact contact, Manifold oldManifold)
+        {
         }
 
         public void PostSolve(Contact contact, ContactImpulse impulse)
