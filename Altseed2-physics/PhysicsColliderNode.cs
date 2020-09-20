@@ -147,7 +147,7 @@ namespace Altseed2.Physics
             get
             {
                 if (!IsActive) return new Vector2F();
-                return B2Body.GetLinearVelocity().ToAsdVector(); ;
+                return B2Body.GetLinearVelocity().ToAsdVector();
             }
             set
             {
