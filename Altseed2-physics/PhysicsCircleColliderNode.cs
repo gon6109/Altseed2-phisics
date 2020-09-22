@@ -49,7 +49,7 @@ namespace Altseed2.Physics
             b2CircleDef = new CircleDef();
             b2BodyDef.Angle = Angle / 180.0f * 3.14f;
             b2BodyDef.Position = Position.ToB2Vector();
-            b2CircleDef.Radius = radius;
+            b2CircleDef.Radius = radius / (float)PhysicsExtension.PixcelPerMeter;
             b2CircleDef.Density = Density;
             b2CircleDef.Restitution = Restitution;
             b2CircleDef.Friction = Friction;
