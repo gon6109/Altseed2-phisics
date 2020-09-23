@@ -3114,6 +3114,17 @@
             <see cref="T:Altseed2.RenderedPolygon"/>のインスタンスを削除します。
             </summary>
         </member>
+        <member name="P:Altseed2.RenderedPolygon.Buffers">
+            <summary>
+            インデックスバッファーを取得または設定します。
+            </summary>
+            <exception cref="T:System.ArgumentNullException">設定しようとした値がnull</exception>
+        </member>
+        <member name="M:Altseed2.RenderedPolygon.SetDefaultIndexBuffer">
+            <summary>
+            インデックスバッファーを既定のもの設定します。
+            </summary>
+        </member>
         <member name="T:Altseed2.RenderedCamera">
             <summary>
             カメラのクラス
@@ -9737,45 +9748,91 @@
             </summary>
             <param name="vertexes">頂点情報</param>
         </member>
+        <member name="M:Altseed2.PolygonNode.SetVertexes(System.ReadOnlySpan{Altseed2.Vertex},System.Boolean)">
+            <summary>
+            座標をもとに頂点情報を設定します。
+            </summary>
+            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Span`1" /></param>
+            <param name="resetIB"><see cref="P:Altseed2.PolygonNode.Buffers"/>を自動計算したものに設定するかどうか</param>
+            <remarks>
+            色は白(255, 255, 255)に設定されます。
+            </remarks>
+        </member>
+        <member name="M:Altseed2.PolygonNode.SetVertexes(System.Collections.Generic.IEnumerable{Altseed2.Vertex},System.Boolean)">
+            <summary>
+            座標をもとに頂点情報を設定します。
+            </summary>
+            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Collections.Generic.IEnumerable`1" /></param>
+            <param name="resetIB"><see cref="P:Altseed2.PolygonNode.Buffers"/>を自動計算したものに設定するかどうか</param>
+            <remarks>
+            色は白(255, 255, 255)に設定されます。
+            </remarks>
+            <exception cref="T:System.ArgumentNullException"><paramref name="vertexes"/>がnullです。</exception>
+        </member>
+        <member name="M:Altseed2.PolygonNode.SetVertexes(System.ReadOnlySpan{Altseed2.Vector2F},Altseed2.Color,System.Boolean)">
+            <summary>
+            座標をもとに頂点情報を設定します。
+            </summary>
+            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Span`1" /></param>
+            <param name="color">各頂点に設定する色</param>
+            <param name="resetIB"><see cref="P:Altseed2.PolygonNode.Buffers"/>を自動計算したものに設定するかどうか</param>
+        </member>
+        <member name="M:Altseed2.PolygonNode.SetVertexes(System.Collections.Generic.IEnumerable{Altseed2.Vector2F},Altseed2.Color,System.Boolean)">
+            <summary>
+            座標をもとに頂点情報を設定します。
+            </summary>
+            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Collections.Generic.IEnumerable`1" /></param>
+            <param name="color">各頂点に設定する色</param>
+            <param name="resetIB"><see cref="P:Altseed2.PolygonNode.Buffers"/>を自動計算したものに設定するかどうか</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="vertexes"/>がnullです。</exception>
+        </member>
         <member name="M:Altseed2.PolygonNode.OverwriteVertexColor(Altseed2.Color)">
             <summary>
             各頂点に指定した色を設定します。
             </summary>
             <param name="color">設定する色</param>
         </member>
-        <member name="M:Altseed2.PolygonNode.SetVertexes(System.ReadOnlySpan{Altseed2.Vertex})">
+        <member name="P:Altseed2.PolygonNode.Buffers">
             <summary>
-            座標をもとに頂点情報を設定します。
+            インデックスバッファを取得または設定します。
             </summary>
-            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Span`1" /></param>
-            <remarks>
-            色は白(255, 255, 255)に設定されます。
-            </remarks>
+            <exception cref="T:System.ArgumentNullException">設定しようとした値がnull</exception>
+            <remarks>大きさは3の倍数である必要があります。余った要素は無視されます。</remarks>
         </member>
-        <member name="M:Altseed2.PolygonNode.SetVertexes(System.Collections.Generic.IEnumerable{Altseed2.Vertex})">
+        <member name="M:Altseed2.PolygonNode.SetBuffers(System.ReadOnlySpan{System.Int32})">
             <summary>
-            座標をもとに頂点情報を設定します。
+            インデックスバッファーを設定します。
             </summary>
-            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Collections.Generic.IEnumerable`1" /></param>
-            <remarks>
-            色は白(255, 255, 255)に設定されます。
-            </remarks>
-            <exception cref="T:System.ArgumentNullException"><paramref name="vertexes"/>がnullです。</exception>
+            <param name="buffers">設定するインデックスバッファー</param>
+            <remarks>大きさは3の倍数である必要があります。余った要素は無視されます。</remarks>
         </member>
-        <member name="M:Altseed2.PolygonNode.SetVertexes(System.ReadOnlySpan{Altseed2.Vector2F},Altseed2.Color)">
+        <member name="M:Altseed2.PolygonNode.SetBuffers(System.Collections.Generic.IEnumerable{System.Int32})">
             <summary>
-            座標をもとに頂点情報を設定します。
+            インデックスバッファーを設定します。
             </summary>
-            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Span`1" /></param>
-            <param name="color">各頂点に設定する色</param>
+            <param name="buffers">設定するインデックスバッファー</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="buffers"/>がnull</exception>
+            <remarks>大きさは3の倍数である必要があります。余った要素は無視されます。</remarks>
         </member>
-        <member name="M:Altseed2.PolygonNode.SetVertexes(System.Collections.Generic.IEnumerable{Altseed2.Vector2F},Altseed2.Color)">
+        <member name="M:Altseed2.PolygonNode.SetVertexGroups(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{Altseed2.Vertex}})">
             <summary>
-            座標をもとに頂点情報を設定します。
+            設定した頂点のグループを設定し，そのグループごとに<see cref="T:Altseed2.PolygonNode"/>と同様の方式でインデックスバッファーを設定します。
             </summary>
-            <param name="vertexes">設定する各頂点の座標を格納する<see cref="T:System.Collections.Generic.IEnumerable`1" /></param>
-            <param name="color">各頂点に設定する色</param>
-            <exception cref="T:System.ArgumentNullException"><paramref name="vertexes"/>がnullです。</exception>
+            <param name="vertexes">設定する頂点のグループ</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="vertexes"/>または<paramref name="vertexes"/>内の要素がnull</exception>
+        </member>
+        <member name="M:Altseed2.PolygonNode.SetVertexGroupsFromPositions(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{Altseed2.Vector2F}},Altseed2.Color)">
+            <summary>
+            設定した座標をもとに頂点のグループを設定し，そのグループごとに<see cref="T:Altseed2.PolygonNode"/>と同様の方式でインデックスバッファーを設定します。
+            </summary>
+            <param name="vertexes">設定する頂点のグループ</param>
+            <param name="color">設定する色</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="vertexes"/>または<paramref name="vertexes"/>内の要素がnull</exception>
+        </member>
+        <member name="M:Altseed2.PolygonNode.SetDefaultIndexBuffer">
+            <summary>
+            <see cref="T:Altseed2.PolygonNode"/>と同様の方法でインデックスバッファの設定を行います。
+            </summary>
         </member>
         <member name="P:Altseed2.PolygonNode.ContentSize">
             <inheritdoc/>
