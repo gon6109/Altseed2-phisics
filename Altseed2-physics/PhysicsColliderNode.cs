@@ -56,6 +56,7 @@ namespace Altseed2.Physics
         private PhysicsColliderType physicsColliderType;
 
         internal BodyDef b2BodyDef;
+        private bool isSensor;
 
         internal World World { get; }
 
@@ -70,7 +71,12 @@ namespace Altseed2.Physics
             set
             {
                 position = value;
-                Reset();
+                if (B2Body != null)
+                    B2Body.SetPosition(position.ToB2Vector());
+                else
+                {
+                    IsRequiredReset = true;
+                }
             }
         }
 
@@ -83,7 +89,7 @@ namespace Altseed2.Physics
             set
             {
                 centerPosition = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -96,7 +102,12 @@ namespace Altseed2.Physics
             set
             {
                 angle = value;
-                Reset();
+                if (B2Body != null)
+                    B2Body.SetAngle(MathHelper.DegreeToRadian(angle));
+                else
+                {
+                    IsRequiredReset = true;
+                }
             }
         }
 
@@ -109,7 +120,7 @@ namespace Altseed2.Physics
             set
             {
                 density = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -122,7 +133,7 @@ namespace Altseed2.Physics
             set
             {
                 restitution = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -135,7 +146,17 @@ namespace Altseed2.Physics
             set
             {
                 friction = value;
-                Reset();
+                IsRequiredReset = true;
+            }
+        }
+
+        public bool IsSensor
+        {
+            get => isSensor;
+            set
+            {
+                isSensor = value;
+                IsRequiredReset = true;
             }
         }
 
@@ -182,7 +203,7 @@ namespace Altseed2.Physics
             set
             {
                 groupIndex = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -195,7 +216,7 @@ namespace Altseed2.Physics
             set
             {
                 categoryBits = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -208,7 +229,7 @@ namespace Altseed2.Physics
             set
             {
                 maskBits = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -236,6 +257,13 @@ namespace Altseed2.Physics
         }
 
         /// <summary>
+        /// 親のトランスフォームを同期させるか
+        /// </summary>
+        public bool IsSyncToParentTransform { get; set; }
+
+        internal bool IsRequiredReset { get; set; }
+
+        /// <summary>
         /// コライダーの種類
         /// </summary>
         public PhysicsColliderType PhysicsColliderType
@@ -244,7 +272,7 @@ namespace Altseed2.Physics
             set
             {
                 physicsColliderType = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -257,21 +285,39 @@ namespace Altseed2.Physics
             categoryBits = 0x0001;
             maskBits = 0xffff;
             World = world;
+
+            IsSyncToParentTransform = true;
+        }
+
+        protected override void OnAdded()
+        {
+            base.OnAdded();
+            Reset();
             World.Add(this);
         }
 
+        protected override void OnUpdate()
+        {
+            if (IsRequiredReset)
+            {
+                Reset();
+                IsRequiredReset = false;
+            }
+
+            base.OnUpdate();
+        }
 
         public void SyncB2body()
         {
             if (!IsActive) return;
 
             position = B2Body.GetPosition().ToAsdVector();
-            angle = (float)B2Body.GetAngle() * 180.0f / 3.14f;
+            angle = MathHelper.RadianToDegree(B2Body.GetAngle());
 
-            if (Parent is TransformNode transformNode)
+            if (IsSyncToParentTransform && Parent is TransformNode transformNode)
             {
                 transformNode.Position = B2Body.GetPosition().ToAsdVector();
-                transformNode.Angle = (float)B2Body.GetAngle() * 180.0f / 3.14f;
+                transformNode.Angle = MathHelper.RadianToDegree(B2Body.GetAngle());
             }
         }
 

@@ -22,7 +22,7 @@ namespace Altseed2.Physics
             set
             {
                 rectangleSize = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -50,6 +50,7 @@ namespace Altseed2.Physics
             b2PolygonDef = new PolygonDef();
             var temp = RectangleSize.ToB2Vector();
             b2PolygonDef.SetAsBox(temp.X / 2, temp.Y / 2, (RectangleSize / 2 - CenterPosition).ToB2Vector(), 0);
+            b2PolygonDef.IsSensor = IsSensor;
 
             b2PolygonDef.Density = Density;
             b2PolygonDef.Restitution = Restitution;

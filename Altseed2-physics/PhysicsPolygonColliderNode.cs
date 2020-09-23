@@ -37,7 +37,7 @@ namespace Altseed2.Physics
         {
             if (vertexes.FindAll(obj => obj == vertex).Count != 0) return;
             vertexes.Add(vertex);
-            Reset();
+            IsRequiredReset = true;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Altseed2.Physics
         public void ClearVertexes()
         {
             vertexes.Clear();
-            Reset();
+            IsRequiredReset = true;
         }
 
         protected override void Reset()
@@ -67,8 +67,6 @@ namespace Altseed2.Physics
             B2Body = World.B2World.CreateBody(b2BodyDef);
             foreach (var item in b2PolygonDefs)
             {
-                FixtureDef fixtureDef = new FixtureDef();
-
                 B2Body.CreateFixture(item);
             }
 
@@ -147,6 +145,7 @@ namespace Altseed2.Physics
             b2PolygonDef.Density = Density;
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
+            b2PolygonDef.IsSensor = IsSensor;
             b2PolygonDef.Filter = new FilterData()
             {
                 GroupIndex = GroupIndex,

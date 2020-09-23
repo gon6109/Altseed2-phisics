@@ -23,7 +23,7 @@ namespace Altseed2.Physics
             set
             {
                 radius = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -53,6 +53,7 @@ namespace Altseed2.Physics
             b2CircleDef.Density = Density;
             b2CircleDef.Restitution = Restitution;
             b2CircleDef.Friction = Friction;
+            b2CircleDef.IsSensor = IsSensor;
             b2CircleDef.Filter = new FilterData()
             {
                 GroupIndex = GroupIndex,

@@ -87,6 +87,7 @@ namespace Altseed2.Physics
         /// </summary>
         public void Update()
         {
+            collisionController.FlushRemoveQueue();
             B2World.Step(TimeStep, VelocityItetions, PositionIterations);
             foreach (var item in physicsCollider)
             {
@@ -109,20 +110,23 @@ namespace Altseed2.Physics
 
     public class CollisionController : ContactListener
     {
-        List<CollisionData> collisionShapes;
         World refWorld;
 
-        public List<CollisionData> CollisionShapes => collisionShapes;
+        public List<CollisionData> CollisionShapes { get; }
+
+        Queue<CollisionData> RemoveQueue { get; }
 
         public CollisionController(World world)
         {
             refWorld = world;
-            collisionShapes = new List<CollisionData>();
+            CollisionShapes = new List<CollisionData>();
+            RemoveQueue = new Queue<CollisionData>();
         }
 
         public void BeginContact(Contact contact)
         {
-            if (!contact.AreTouching) return;
+            if (!contact.AreTouching)
+                return;
             CollisionData temp = new CollisionData();
             temp.BodyA = contact.FixtureA.Body;
             temp.BodyB = contact.FixtureB.Body;
@@ -134,21 +138,19 @@ namespace Altseed2.Physics
                 temp.Points.Add(manifold.Points[i].ToAsdVector());
             }
 
-            collisionShapes.Add(temp);
+            CollisionShapes.Add(temp);
         }
 
         public void EndContact(Contact contact)
         {
-            CollisionData temp = new CollisionData();
-            foreach (var item in collisionShapes)
+            foreach (var item in CollisionShapes)
             {
                 if (item.BodyA == contact.FixtureA.Body && item.BodyB == contact.FixtureB.Body)
                 {
-                    temp = item;
+                    RemoveQueue.Enqueue(item);
                     break;
                 }
             }
-            collisionShapes.Remove(temp);
         }
 
         public void PreSolve(Contact contact, Manifold oldManifold)
@@ -158,7 +160,7 @@ namespace Altseed2.Physics
         public void PostSolve(Contact contact, ContactImpulse impulse)
         {
             CollisionData temp = null;
-            foreach (var item in collisionShapes)
+            foreach (var item in CollisionShapes)
             {
                 if (item.BodyA == contact.FixtureA.Body && item.BodyB == contact.FixtureB.Body)
                 {
@@ -175,6 +177,14 @@ namespace Altseed2.Physics
             for (int i = 0; i < contact.Manifold.PointCount; i++)
             {
                 temp.Points.Add(worldManifold.Points[i].ToAsdVector());
+            }
+        }
+
+        public void FlushRemoveQueue()
+        {
+            while (RemoveQueue.Count > 0)
+            {
+                CollisionShapes.Remove(RemoveQueue.Dequeue());
             }
         }
     }

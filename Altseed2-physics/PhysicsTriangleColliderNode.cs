@@ -39,7 +39,7 @@ namespace Altseed2.Physics
             set
             {
                 vertexes[0] = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -49,7 +49,7 @@ namespace Altseed2.Physics
             set
             {
                 vertexes[1] = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Altseed2.Physics
             set
             {
                 vertexes[2] = value;
-                Reset();
+                IsRequiredReset = true;
             }
         }
 
@@ -81,6 +81,7 @@ namespace Altseed2.Physics
             b2PolygonDef.Density = Density;
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
+            b2PolygonDef.IsSensor = IsSensor;
             b2PolygonDef.Filter = new FilterData()
             {
                 GroupIndex = GroupIndex,
