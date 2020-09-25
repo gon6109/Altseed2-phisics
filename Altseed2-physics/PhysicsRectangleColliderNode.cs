@@ -39,6 +39,9 @@ namespace Altseed2.Physics
 
         protected override void Reset()
         {
+            if (!IsRegistered)
+                return;
+
             if (B2Body != null)
             {
                 World.B2World.DestroyBody(B2Body);

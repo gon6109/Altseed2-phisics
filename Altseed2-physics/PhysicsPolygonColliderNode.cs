@@ -51,6 +51,9 @@ namespace Altseed2.Physics
 
         protected override void Reset()
         {
+            if (!IsRegistered)
+                return;
+
             if (vertexes.Count < 3) return;
 
             if (B2Body != null)

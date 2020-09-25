@@ -298,7 +298,7 @@ namespace Altseed2.Physics
 
         protected override void OnUpdate()
         {
-            if (IsRequiredReset)
+            if (IsRequiredReset && IsActive)
             {
                 Reset();
                 IsRequiredReset = false;

@@ -89,6 +89,7 @@ namespace Altseed2.Physics
         {
             collisionController.FlushRemoveQueue();
             B2World.Step(TimeStep, VelocityItetions, PositionIterations);
+            Engine.Log.Debug(LogCategory.User, $"B2World CC:{B2World.GetContactCount()} BC:{B2World.GetBodyCount()}");
             foreach (var item in physicsCollider)
             {
                 item.SyncB2body();
