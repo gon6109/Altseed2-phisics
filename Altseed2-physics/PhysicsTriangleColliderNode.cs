@@ -81,7 +81,7 @@ namespace Altseed2.Physics
             b2BodyDef.Angle = Angle / 180.0f * 3.14f;
             b2BodyDef.Position = Position.ToB2Vector();
 
-            b2PolygonDef.Density = Density;
+            b2PolygonDef.Density = Density * (float)(PhysicsExtension.PixcelPerMeter * PhysicsExtension.PixcelPerMeter);
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
             b2PolygonDef.IsSensor = IsSensor;

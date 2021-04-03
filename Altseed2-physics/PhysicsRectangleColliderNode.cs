@@ -55,7 +55,7 @@ namespace Altseed2.Physics
             b2PolygonDef.SetAsBox(temp.X / 2, temp.Y / 2, (RectangleSize / 2 - CenterPosition).ToB2Vector(), 0);
             b2PolygonDef.IsSensor = IsSensor;
 
-            b2PolygonDef.Density = Density;
+            b2PolygonDef.Density = Density * (float)(PhysicsExtension.PixcelPerMeter * PhysicsExtension.PixcelPerMeter);
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
             b2PolygonDef.Filter = new FilterData()

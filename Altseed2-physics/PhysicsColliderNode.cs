@@ -257,6 +257,20 @@ namespace Altseed2.Physics
         }
 
         /// <summary>
+        /// 重量
+        /// </summary>
+        public float Mass
+        {
+            get
+            {
+                if (IsRequiredReset)
+                    Reset();
+
+                return B2Body.GetMass();
+            }
+        }
+
+        /// <summary>
         /// 親のトランスフォームを同期させるか
         /// </summary>
         public bool IsSyncToParentTransform { get; set; }

@@ -145,7 +145,7 @@ namespace Altseed2.Physics
             vertex.Add(vertex3);
             b2PolygonDef.Vertices = vertex.SortTriangleVertexes().Select(v => v.ToB2Vector()).ToArray();
             b2PolygonDef.VertexCount = b2PolygonDef.Vertices.Length;
-            b2PolygonDef.Density = Density;
+            b2PolygonDef.Density = Density * (float)(PhysicsExtension.PixcelPerMeter * PhysicsExtension.PixcelPerMeter);
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
             b2PolygonDef.IsSensor = IsSensor;
